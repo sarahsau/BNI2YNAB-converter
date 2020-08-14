@@ -1,55 +1,32 @@
-# ruby-pdf-parser
+# BNI to YNAB converter v1.0
+This ruby script converts PDF file from Bank Negara Indonesia (BNI) to a CSV file able to be imported by You Need a Budget (YNAB) app.
+Created by sarahsau (itsme@sarahsausan.com) in 2020; Forked from kei178.
 
-An example of how to parse PDFs like CSVs with Ruby.
+## Download the BNI PDF statement and put it in the script directory
+1. Login to BNI Internet Banking
+2. Go to Rekening > Mutasi Tabungan dan Giro
+3. Select your account and put your query criteria, then select *Histori Transaksi*  
+4. Download to a PDF file
+5. Put the file in the script directory
 
-## [pdf-reader](https://github.com/yob/pdf-reader)
+## Install Ruby
+If you haven't gotten Ruby installed, please do so.
 
+## In your console, navigate to the script directory, then run the following command:
 ```
-gem install pdf-reader
+ ynab_BNI_converter.rb [statement_from_BNI].pdf [converted_file_name].csv
+```
+[statement_from_BNI] is the file name of the statement you downloaded from BNI.
+Put it in the directory you're in for simpler access.
+
+[converted_file_name] is the file name for the conversion result.
+By default the file name is *BNI_converted_result.csv*. It will be written in the directory you're in.
+
+Example:
+```
+ynab_BNI_converter.rb JOHNDOE19062024.pdf result.csv
 ```
 
-## Run
-
-Target: [example.pdf](https://github.com/kei178/ruby-pdf-parser/blob/master/example.pdf)
-
-Command:
-
-```
-ruby parser.rb
-```
-
-Result:
-
-```ruby
-["Invoice"]
-["DATE: [Enter date]"]
-["INVOICE Invoice Number"]
-["FROM:", "[Company Name]", "TO:", "[Client Name]"]
-["[Email]", "[Client Email Address"]
-["[Address 1]il Address", "[Address 1]"]
-["[Address 2]", "[Address 2]ress 1"]
-["[Phone]s 2", "[Phone] Address 2"]
-["TERMS: T[Payment Terms]"]
-["DUE:", "Due Datet Due Date]"]
-["Item Description", "Quantity", "Price", "Amount"]
-["Item1", "1.00"]
-["$ 10.00", "$ 10.00"]
-["Item2", "2.00"]
-["$ 10.00", "$ 20.00"]
-["Item3"]
-["1.00", "$ 20.00", "$ 20.00"]
-["Item4", "5.00"]
-["$ 5.00", "$ 25.00"]
-["Item5", "1.00"]
-["$ 8.00", "$ 8.00"]
-["$ 0.00"]
-["$ 0.00"]
-["$ 0.00"]
-["$ 0.00"]
-["$ 0.00"]
-["Subtotal", "$ 83.00"]
-["Tax"]
-["BALANCE DUE", "$ 83.00"]
-["Notes"]
-["EClick here to add notes or terms of service.here"]
-```
+## Import the result to YNAB
+The resulting CSV will be generated in the directory.
+When you import to YNAB, select DD/MM/YYYY as the date format.
