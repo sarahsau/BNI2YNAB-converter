@@ -1,4 +1,4 @@
-# BNI to YNAB converter v1.0
+# BNI to YNAB converter 
 This ruby script converts PDF file from Bank Negara Indonesia (BNI) to a CSV file able to be imported by You Need a Budget (YNAB) app.
 Created by sarahsau (itsme@sarahsausan.com) in 2020; Forked from kei178.
 
