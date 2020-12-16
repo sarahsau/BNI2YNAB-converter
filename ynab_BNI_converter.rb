@@ -30,16 +30,20 @@ File.open(pdf_file, 'rb') do |io|
 
     t.each do |s|
 
-      # Formatting
+      # Formatting - remove whitespace and empty cells
       ary = s.split("\s\s")
+			ary.each(&:strip!)
+			next if ary.empty?
       ary.delete_if { |str| str.nil? || str.empty? }
-      ary.each(&:strip!)
-      next if ary.empty?
+
+			# Remove "Kategori" column
+			ary.delete_if { |str| str == "Tanpa Kategori"}
 
       rows << ary
     end
 
     pages << rows
+
   end
 
   # Formatting to YNAB CSV format.
@@ -51,9 +55,8 @@ File.open(pdf_file, 'rb') do |io|
       end
 
       # Delete 'Kategori', 'Saldo', and 'Pecah Transaksi' columns.
-      rows.delete(rows[6])
-      rows.delete(rows[5])
-      rows.delete(rows[2])
+			rows.delete(rows.last)
+		 	rows.delete(rows.last)
 
       # Insert blank 'Payee' column.
       rows[4] = rows[3]
@@ -62,9 +65,14 @@ File.open(pdf_file, 'rb') do |io|
       rows[1] = ""
 
       # Make outflows negative.
+
       if rows[3].to_s.include?('Db.')
-      	outflow = (0 - rows[4].to_f) * 1000
+				amount = rows[4].delete(",").to_f
+      	outflow = (0 - amount)
       	rows[4].replace(outflow.to_s)
+			elsif rows[3].to_s.include?('Cr.')
+				inflow = rows[4].delete(",").to_f
+				rows[4].replace(inflow.to_s)
       end
 
       # Delete CR and DB.
@@ -90,7 +98,7 @@ File.open(pdf_file, 'rb') do |io|
       end
 
 			# Giving user confirmation at the console.
-			p rows
+			 p rows
 
     end
   end
